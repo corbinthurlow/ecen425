@@ -1,4 +1,5 @@
 #include <stdio.h>
 #include <stdint.h>
 
-//hello
+int YKCtxSwCount = NULL;
+int YKIdleCount = NULL;
