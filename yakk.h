@@ -1,0 +1,31 @@
+#define NULL 0
+
+enum taskState{
+	blocked,		//state for task being block
+	ready,			//state for task being ready
+	running,		//state for task being running
+	interrupted		//state for task being interrupted
+} currstate;
+
+extern YKCtxSwCount;		//context switch counter 
+extern YKIdleCount;		//idelcount counter
+
+typedef struct taskblock *TCBptr;
+typedef struct taskblock{
+	void *stackptr;		//pointer to current stack top
+	currstate state;	//current state of TCB
+	int priority;		//current priority
+	int delay;		//# of ticks yet to wait
+	TCBptr next;		//forward ptr for linked list
+	TCBptr prev;		//backward ptr for linked list
+} TCB;
+
+
+void YKInitialize(void);
+void YKEnterMutex(void);
+void YKExitMutex(void);
+void YKIdleTask(void);
+void YKNewTask(void(*task(void)),void *taskStack,unsigned char priority);
+void YKRun(void);
+void YKScheduler(void);
+void YKDispatcher(TCBptr lower,TCBptr higher);
