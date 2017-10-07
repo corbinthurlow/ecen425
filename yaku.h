@@ -1,0 +1,2 @@
+#define MAX_TASKS 3
+#define MAX_IDLE_STACK_SIZE 256
