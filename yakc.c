@@ -19,18 +19,23 @@ void YKInitialize(void) {
 	YKNewTask(YKIdleTask, (void *)&YKIdleStk[MAX_IDLE_STACK_SIZE], IDLE_TASK_PRIORITY_VALUE);
 }
 
-void idleTask() {
+void YKEnterMutex(void);
+
+void YKExitMutex(void);
+
+
+void YKIdleTask(void){
 	int i = 0;
 	while(1) {
 		for (i = 0; i < 32767; i++) {
 			 printString("still inside idle task...\n"); // print it often to see if in idle task.
 		}
+		YKIdleCount++;
 	}
+
+
 }
 
-void YKEnterMutex(void);
-void YKExitMutex(void);
-void YKIdleTask(void);
 void YKNewTask(void(*task(void)),void *taskStack,unsigned char priority) {
 	TCBptr newTask;
 	newTask->(*(stackptr)) = &taskStack;
@@ -43,6 +48,7 @@ void YKNewTask(void(*task(void)),void *taskStack,unsigned char priority) {
 	insertTCB(newTask);
 	if (isYKRunCalled) {
 		//call scheduler
+		
 	}
 }
 
@@ -85,7 +91,14 @@ int compareTCBPriority(TCBptr new, TCBptr comparingTo) {
 	return FALSE;
 }
 
-void YKRun(void);
-void YKScheduler(void);
+void YKRun(void){
+	YKScheduler();	//calls the scheduler to begin kernel
+}
+
+
+void YKScheduler(void){
+	//traverse through linked list to find any task
+
+}
 void YKDispatcher(TCBptr lower,TCBptr higher);
 
