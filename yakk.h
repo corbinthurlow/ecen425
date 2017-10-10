@@ -1,4 +1,6 @@
 #define NULL 0
+#define TRUE 1
+#define FALSE 0
 
 enum taskState{
 	blocked,		//state for task being block
@@ -11,11 +13,11 @@ extern YKCtxSwCount;		//context switch counter
 extern YKIdleCount;		//idelcount counter
 
 typedef struct taskblock *TCBptr;
-typedef struct taskblock{
+typedef struct taskblock {
 	void *stackptr;		//pointer to current stack top
 	currstate state;	//current state of TCB
-	int priority;		//current priority
-	int delay;		//# of ticks yet to wait
+	unsigned char priority;		//current priority
+	int delay;			//# of ticks yet to wait
 	TCBptr next;		//forward ptr for linked list
 	TCBptr prev;		//backward ptr for linked list
 } TCB;
