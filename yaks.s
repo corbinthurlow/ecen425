@@ -5,29 +5,50 @@ YKExitMutex:
 	sti
 	iret
 
-GetSP:
+
+YKDispatcher:
 	push bp
-	mov bp, sp
-	push ax
-	mov ax, sp
+	mov bp, sp	
+	pushf
+	push cs
+	cmp word[bp+4], 0
+	je YKDispatcher_run
+	call YKSaveContext
 	mov sp, bp
 	pop bp
 	ret
 
-GetIP:
+YKSaveContext:
+	push bp
+	push dx
+	push cx
+	push bx
 	push ax
-	mov ax, ip
-	ret
+	push es
+	push di
+	push si
+	push ds
+	mov bx, [bp+6]
+	mov [bx], sp
+
+
+	
+YKDispatcher_run:
+	mov bx, [RdyTask]
+	mov sp, [bx]	
+	pop ds
+	pop si
+	pop di
+	pop es
+	pop ax
+	pop bx
+	pop cx
+	pop dx
+	pop bp
+	iret
+	
 	
 
-GetFlags:
-	push bp
-	mov bp, sp
-	pushf
-	push ax
-	mov ax, [bp+4]
-	mov sp, bp
-	pop bp
-	ret
+	
 	
 
